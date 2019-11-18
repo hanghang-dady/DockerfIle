@@ -1,0 +1,90 @@
+version: '3'
+services:
+  rmqnamesrv:
+    image: registry.sixi.com/rocketmq-namesrv:4.5.1
+    container_name: rmqnamesrv
+    ports:
+      - 29876:9876
+    volumes:
+      - ./data/namesrv/logs:/data/logs
+      - ./data/namesrv/store:/data/store
+      - /etc/localtime:/etc/localtime
+  broker-m-a:
+    image: registry.sixi.com/rocketmq-broker:4.5.1
+    container_name: rmqbroker-m-a
+    ports:
+      - 10909:10909
+      - 10911:10911
+      - 10912:10912
+    volumes:
+      - ./data/broker/logs:/data/logs
+      - ./data/broker/store:/data/store
+      - ./data/broker/conf/broker-a.properties:/opt/store/conf/2m-2s-async/broker-a.properties
+      - /etc/localtime:/etc/localtime
+    command: sh mqbroker -n rmqnamesrv:9876 -c /opt/store/conf/2m-2s-async/broker-a.properties
+    depends_on:
+      - rmqnamesrv
+
+  broker-s-a:
+    image: registry.sixi.com/rocketmq-broker:4.5.1
+    container_name: rmqbroker-s-a
+    ports:
+      - 20909:10909
+      - 20911:10911
+      - 20912:10912
+    volumes:
+      - ./data/broker/logs:/data/logs
+      - ./data/broker/store:/data/store
+      - ./data/broker/conf/broker-a-s.properties:/opt/store/conf/2m-2s-async/broker-a-s.properties
+      - /etc/localtime:/etc/localtime
+    command: sh mqbroker -n rmqnamesrv:9876 -c /opt/store/conf/2m-2s-async/broker-a-s.properties
+    depends_on:
+      - rmqnamesrv
+
+  broker-m-b:
+    image: registry.sixi.com/rocketmq-broker:4.5.1
+    container_name: rmqbroker-m-b
+    ports:
+      - 30909:10909
+      - 30911:10911
+      - 30912:10912
+    volumes:
+      - ./data/broker/logs:/data/logs
+      - ./data/broker/store:/data/store
+      - ./data/broker/conf/broker-b.properties:/opt/store/conf/2m-2s-async/broker-b.properties
+      - /etc/localtime:/etc/localtime
+    command: sh mqbroker -n rmqnamesrv:9876 -c /opt/store/conf/2m-2s-async/broker-b.properties
+    depends_on:
+      - rmqnamesrv
+
+  broker-s-b:
+    image: registry.sixi.com/rocketmq-broker:4.5.1
+    container_name: rmqbroker-s-b
+    ports:
+      - 40909:10909
+      - 40911:10911
+      - 40912:10912
+    volumes:
+      - ./data/broker/logs:/data/logs
+      - ./data/broker/store:/data/store
+      - ./data/broker/conf/broker-b-s.properties:/opt/store/conf/2m-2s-async/broker-b-s.properties
+      - /etc/localtime:/etc/localtime
+    command: sh mqbroker -n rmqnamesrv:9876 -c /opt/store/conf/2m-2s-async/broker-b-s.properties
+    depends_on:
+      - rmqnamesrv
+
+  docketmq-console:
+    image: registry.sixi.com/rocketmq-console:1.0.1
+    container_name: rmq-console
+    ports:
+      - 7011:8080
+    environment:
+      NAMESRV_ADDR: "rmqnamesrv:9876"
+      JAVA_OPTS: "-Xms512m -Xmx512m -Xmn256m"
+    depends_on:
+      - rmqnamesrv
+      - broker-m-a
+      - broker-m-b
+      - broker-s-a
+      - broker-s-b
+
