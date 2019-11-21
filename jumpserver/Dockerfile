@@ -80,8 +80,9 @@ RUN chmod +x /bin/entrypoint.sh
 
 VOLUME /opt/jumpserver/data/media
 
-ENV SECRET_KEY=kWQdmdCQKjaWlHYpPhkNQDkfaRulM6YnHctsHLlSPs8287o2kW \
-    BOOTSTRAP_TOKEN=KXOeyNgDeTdpeu9q
+ENV SECRET_KEY=E2Ev5Cru1EdRgdunHeH7zdosptRAXF5B8P2xu34n1JozGVsvRj \
+    BOOTSTRAP_TOKEN=pgkuioOYYleJgSvx
+
 
 ENV DB_ENGINE=mysql \
     DB_HOST=127.0.0.1 \
