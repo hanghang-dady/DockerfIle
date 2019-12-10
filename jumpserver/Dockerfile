@@ -50,7 +50,7 @@ RUN set -ex \
     && python3.6 -m venv /opt/py3 \
     && source /opt/py3/bin/activate \
     && pip install --upgrade pip setuptools \
-    && pip install -r /opt/jumpserver/requirements/requirements.txt \
+    && pip install -r /opt/jumpserver/requirements/requirements.txt -i https://mirrors.aliyun.com/pypi/simple/ \
     && cd docker-guacamole \
     && tar xf guacamole-server-${GUAC_VER}.tar.gz \
     && cd guacamole-server-${GUAC_VER} \
