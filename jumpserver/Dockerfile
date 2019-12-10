@@ -1,5 +1,5 @@
 FROM centos:7
-LABEL maintainer "wojiushixiaobai"
+LABEL maintainer "MiaoWoo(admin@yumc.pw)"
 WORKDIR /opt
 
 ENV VERSION=1.5.4 \
@@ -74,15 +74,13 @@ RUN set -ex \
     && rm -rf /opt/*.tar.gz \
     && rm -rf ~/.cache/pip
 
-COPY readme.txt readme.txt
 COPY entrypoint.sh /bin/entrypoint.sh
 RUN chmod +x /bin/entrypoint.sh
 
 VOLUME /opt/jumpserver/data/media
 
-ENV SECRET_KEY=E2Ev5Cru1EdRgdunHeH7zdosptRAXF5B8P2xu34n1JozGVsvRj \
-    BOOTSTRAP_TOKEN=pgkuioOYYleJgSvx
-
+ENV SECRET_KEY=kWQdmdCQKjaWlHYpPhkNQDkfaRulM6YnHctsHLlSPs8287o2kW \
+    BOOTSTRAP_TOKEN=KXOeyNgDeTdpeu9q
 
 ENV DB_ENGINE=mysql \
     DB_HOST=127.0.0.1 \
